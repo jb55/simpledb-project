@@ -1,0 +1,15 @@
+#!/bin/bash
+# A simple build script
+
+cd server/simpledb
+echo building and installing simpledb...
+./build release
+cd ../simpledb-python
+echo building simpledb-python...
+python setup.py build
+echo installing simpledb-python...
+python setup.py install
+cd ../../client
+echo building client...
+g++ -O2 *.cpp -oclient
+echo done

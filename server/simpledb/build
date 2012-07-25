@@ -1,0 +1,15 @@
+#!/bin/bash
+# compile optimized or not
+
+CC=$CC || "gcc"
+
+if [ "$1" == "release" ]; then 
+  $CC -Wall -fPIC -O2 -c simpledb.c orphanlist.c semaphore.c
+else
+  $CC -Wall -fPIC -g -c simpledb.c orphanlist.c semaphore.c
+fi
+
+$CC -shared -Wl,-soname,libsimpledb.so.1 -o libsimpledb.so simpledb.o orphanlist.o semaphore.o -lc
+rm -f /usr/local/lib/*simpledb*
+cp libsimpledb.so /usr/local/lib
+ldconfig
